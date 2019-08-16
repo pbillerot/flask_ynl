@@ -1,6 +1,6 @@
 {
-    "name": "Flask Template",
-    "id": "flask",
+    "name": "Alexa",
+    "id": "alexa",
     "packaging_format": 1,
     "description": {
         "en": "Flask app template.",
@@ -23,7 +23,7 @@
             {
                 "name": "system_name",
                 "type": "string",
-                "example": "myapp",
+                "example": "alexa",
                 "ask": {
                     "en": "Short name used by the system to identify your app",
                     "fr": "Nom court utilisé par le système pour identifier l'application"
@@ -36,7 +36,7 @@
             {
                 "name": "display_name",
                 "type": "string",
-                "example": "My App",
+                "example": "Alexa",
                 "ask": {
                     "en": "Display name (used in SSO portal)",
                     "fr": "Nom affiché (utilisé dans le portail SSO)"
@@ -54,8 +54,8 @@
             {
                 "name": "path",
                 "type": "path",
-                "example": "/flask",
-                "default": "/flask",
+                "example": "/alexa",
+                "default": "/alexa",
                 "ask": {
                     "en": "Choose a path for the flask app",
                     "fr": "Choisissez un chemin pour l'application flask"
