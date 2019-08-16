@@ -7,13 +7,13 @@
         "fr": "Modèle d'app en Flask."
     },
     "maintainer": {
-        "name": "alexAubin",
-        "email": "alex.aubin@mailoo.org"
+        "name": "pbillerot",
+        "email": "philippe.billerot@gmail.com"
     },
     "requirements": {
         "yunohost": ">> 3.0.0"
     },
-    "version": "20180725",
+    "version": "20190816",
     "multi_instance": "false",
     "services": [
         "nginx"
@@ -73,7 +73,7 @@
             {
                 "name": "db_type",
                 "choices": ["postgresql", "sqlite"],
-                "default": "postgresql",
+                "default": "sqlite",
                 "ask": {
                     "en": "Choose the database to use",
                     "fr": "Choisissez la base de donnée à utiliser"
