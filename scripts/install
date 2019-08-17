@@ -82,6 +82,7 @@ function init_venv()
     pip install Flask
     pip install Flask-Script
     pip install Flask-SQLAlchemy
+    pip install flask-ask-sdk
     #psycopg2 driver for sqlalchemy postgresql dialect (either that or pg8000)
     if [ "$db_type" = 'postgresql' ]; then pip install psycopg2; fi
     pip install gunicorn
@@ -119,7 +120,7 @@ function init_db()
 
 function configure_flask_app()
 {
-    # Copy hello-world sources
+    # Copie des sources de l'application
     cp -r ../sources/* $final_path/
 
     # App settings
