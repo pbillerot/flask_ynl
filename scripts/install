@@ -5,17 +5,23 @@ set -eu
 
 # Source YunoHost helpers
 source /usr/share/yunohost/helpers
-source _future.sh
+
+ynh_clean_setup () {
+	### Remove this function if there's nothing to clean before calling the remove script.
+	true
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
 # Retrieve manifest arguments
 app=$YNH_APP_INSTANCE_NAME
 domain=$YNH_APP_ARG_DOMAIN
 path=$YNH_APP_ARG_PATH
-readonly app_system_name=$YNH_APP_ARG_SYSTEM_NAME
-readonly app_display_name=$YNH_APP_ARG_DISPLAY_NAME
-readonly is_public=$YNH_APP_ARG_IS_PUBLIC
+app_system_name=$YNH_APP_ARG_SYSTEM_NAME
+app_display_name=$YNH_APP_ARG_DISPLAY_NAME
+is_public=$YNH_APP_ARG_IS_PUBLIC
 
-readonly final_path=/var/www/$app_system_name
+final_path=/var/www/$app
 
 function main()
 {
