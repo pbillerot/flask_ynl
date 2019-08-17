@@ -55,7 +55,7 @@ function init_venv()
     pip install Flask
     pip install Flask-Script
     pip install Flask-SQLAlchemy
-    pip install flask-ask-sdk
+    # pip install flask-ask-sdk
     pip install gunicorn
     pip install pyyaml
     popd
