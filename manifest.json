@@ -13,7 +13,7 @@
     "requirements": {
         "yunohost": ">> 3.0.0"
     },
-    "version": "20190816.2",
+    "version": "20190817",
     "multi_instance": "false",
     "services": [
         "nginx"
@@ -24,6 +24,7 @@
                 "name": "system_name",
                 "type": "string",
                 "example": "alexa",
+                "default": "alexa",
                 "ask": {
                     "en": "Short name used by the system to identify your app",
                     "fr": "Nom court utilisé par le système pour identifier l'application"
@@ -37,6 +38,7 @@
                 "name": "display_name",
                 "type": "string",
                 "example": "Alexa",
+                "default": "Alexa",
                 "ask": {
                     "en": "Display name (used in SSO portal)",
                     "fr": "Nom affiché (utilisé dans le portail SSO)"
@@ -68,15 +70,6 @@
                 "ask": {
                     "en": "Make the app public?",
                     "fr": "Rendre l'application publique ?"
-                }
-            },
-            {
-                "name": "db_type",
-                "choices": ["postgresql", "sqlite"],
-                "default": "sqlite",
-                "ask": {
-                    "en": "Choose the database to use",
-                    "fr": "Choisissez la base de donnée à utiliser"
                 }
             }
         ]
