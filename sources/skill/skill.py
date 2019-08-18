@@ -10,6 +10,9 @@ from ask_sdk_core.dispatch_components import AbstractExceptionHandler
 from ask_sdk_core.utils import is_request_type, is_intent_name
 from ask_sdk_core.handler_input import HandlerInput
 
+from ask_sdk_model.interfaces.audioplayer import (
+    PlayDirective, PlayBehavior, AudioItem, Stream, AudioItemMetadata,
+    StopDirective, ClearQueueDirective, ClearBehavior)
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
@@ -17,7 +20,6 @@ sb = SkillBuilder()
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -27,7 +29,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "Welcome to the Alexa Skills Kit, you can say hello!"
+        speech_text = "Karl à ton écoute"
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text)).set_should_end_session(
@@ -35,21 +37,20 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return handler_input.response_builder.response
 
 
-class HelloWorldIntentHandler(AbstractRequestHandler):
+class MeteoIntentHandler(AbstractRequestHandler):
     """Handler for Hello World Intent."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return is_intent_name("HelloWorldIntent")(handler_input)
+        return is_intent_name("MeteoIntent")(handler_input)
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "Hello Python World from Classes!"
+        speech_text = "Il fait beau!"
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text)).set_should_end_session(
-            True)
+            False)
         return handler_input.response_builder.response
-
 
 class HelpIntentHandler(AbstractRequestHandler):
     """Handler for Help Intent."""
@@ -59,7 +60,7 @@ class HelpIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "You can say hello to me!"
+        speech_text = "Tu peux me dire bonjour!"
 
         handler_input.response_builder.speak(speech_text).ask(
             speech_text).set_card(SimpleCard(
@@ -76,7 +77,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speech_text = "Goodbye!"
+        speech_text = "Bye!"
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text))
@@ -95,9 +96,9 @@ class FallbackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         speech_text = (
-            "The Hello World skill can't help you with that.  "
-            "You can say hello!!")
-        reprompt = "You can say hello!!"
+            "Le Hello World skill ne comprends pas.  "
+            "Tu peux me dire bonjour!!")
+        reprompt = "Tu peux me dire bonjour!!"
         handler_input.response_builder.speak(speech_text).ask(reprompt)
         return handler_input.response_builder.response
 
@@ -125,18 +126,68 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
         # type: (HandlerInput, Exception) -> Response
         logger.error(exception, exc_info=True)
 
-        speech = "Sorry, there was some problem. Please try again!!"
+        speech = "Désolé, j'ai quelques problèmes, essaie plus tard!!"
         handler_input.response_builder.speak(speech).ask(speech)
 
         return handler_input.response_builder.response
 
+class HelloWorldIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        print("HelloWorld ?")
+        return is_intent_name("HelloWorldIntent")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        print("Réponse HelloWorld")
+        speech_text = "Bonjour, de la part de Karl!"
+
+        handler_input.response_builder.speak(speech_text).set_card(
+            SimpleCard("Hello World", speech_text)).set_should_end_session(
+            False)
+        return handler_input.response_builder.response
+
+class PlayRadioIntentHandler(AbstractRequestHandler):
+    """Handler for Play command from hardware buttons or touch control.
+    This handler handles the play command sent through hardware buttons such
+    as remote control or the play control from Alexa-devices with a screen.
+    """
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        print("PlayRadioIntent ?")
+        return is_intent_name("PlayRadioIntent")(handler_input)
+        # return is_request_type(
+        #     "PlaybackController.PlayCommandIssued")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        print("PlayRadio...")
+
+        handler_input.response_builder.add_directive(
+            PlayDirective(
+                play_behavior=PlayBehavior.REPLACE_ALL,
+                audio_item=AudioItem(
+                    stream=Stream(
+                        token="France Inter",
+                        url="http://direct.franceinter.fr/live/franceinter-midfi.mp3",
+                        offset_in_milliseconds=0,
+                        expected_previous_token=None),
+                    metadata=None
+                )
+            )
+        ).set_should_end_session(False)
+        handler_input.response_builder.speak("En avant la musique")
+        return handler_input.response_builder.response
 
 sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(HelloWorldIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(FallbackIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
+sb.add_request_handler(HelloWorldIntentHandler())
+sb.add_request_handler(MeteoIntentHandler())
+sb.add_request_handler(PlayRadioIntentHandler())
 
 sb.add_exception_handler(CatchAllExceptionHandler())
 

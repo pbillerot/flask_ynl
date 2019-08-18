@@ -10,6 +10,6 @@ def create_app():
     skill_adapter = SkillAdapter(
     skill=sb.create(), skill_id="AMAZON_SKILL_ID", app=app)
 
-    skill_adapter.register(app=app, route="/")
+    skill_adapter.register(app=app, route="/alexa")
 
     return app
