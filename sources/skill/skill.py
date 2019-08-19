@@ -13,6 +13,8 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.interfaces.audioplayer import (
     PlayDirective, PlayBehavior, AudioItem, Stream, AudioItemMetadata,
     StopDirective, ClearQueueDirective, ClearBehavior)
+from ask_sdk_model.ui import StandardCard, Image
+
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
@@ -148,6 +150,15 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
             False)
         return handler_input.response_builder.response
 
+sb.add_request_handler(LaunchRequestHandler())
+sb.add_request_handler(HelpIntentHandler())
+sb.add_request_handler(CancelOrStopIntentHandler())
+sb.add_request_handler(FallbackIntentHandler())
+sb.add_request_handler(SessionEndedRequestHandler())
+sb.add_request_handler(HelloWorldIntentHandler())
+sb.add_request_handler(MeteoIntentHandler())
+
+# RADIO
 class PlayRadioIntentHandler(AbstractRequestHandler):
     """Handler for Play command from hardware buttons or touch control.
     This handler handles the play command sent through hardware buttons such
@@ -164,13 +175,18 @@ class PlayRadioIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         print("PlayRadio...")
 
+        handler_input.response_builder.set_card(
+            StandardCard(
+                title="FIP Rock", text="La radio InRock"
+            )
+        )
         handler_input.response_builder.add_directive(
             PlayDirective(
                 play_behavior=PlayBehavior.REPLACE_ALL,
                 audio_item=AudioItem(
                     stream=Stream(
                         token="France Inter",
-                        url="http://direct.franceinter.fr/live/franceinter-midfi.mp3",
+                        url="https://chai5she.cdn.dvmr.fr/fip-webradio1.mp3?ID=radiofrance",
                         offset_in_milliseconds=0,
                         expected_previous_token=None),
                     metadata=None
@@ -180,14 +196,58 @@ class PlayRadioIntentHandler(AbstractRequestHandler):
         handler_input.response_builder.speak("En avant la musique")
         return handler_input.response_builder.response
 
-sb.add_request_handler(LaunchRequestHandler())
-sb.add_request_handler(HelpIntentHandler())
-sb.add_request_handler(CancelOrStopIntentHandler())
-sb.add_request_handler(FallbackIntentHandler())
-sb.add_request_handler(SessionEndedRequestHandler())
-sb.add_request_handler(HelloWorldIntentHandler())
-sb.add_request_handler(MeteoIntentHandler())
+class PlayRadioStartedHandler(AbstractRequestHandler):
+    """AudioPlayer.PlaybackStarted Directive received.
+    Confirming that the requested audio file began playing.
+    Do not send any specific response.
+    """
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return is_request_type("AudioPlayer.PlaybackStarted")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        logger.info("In PlaybackStartedHandler")
+        logger.info("Playback started")
+        return handler_input.response_builder.response
+
+class PlayRadioFinishedHandler(AbstractRequestHandler):
+    """AudioPlayer.PlaybackFinished Directive received.
+    Confirming that the requested audio file completed playing.
+    Do not send any specific response.
+    """
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return is_request_type("AudioPlayer.PlaybackFinished")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        logger.info("In PlaybackFinishedHandler")
+        logger.info("Playback finished")
+        return handler_input.response_builder.response
+
+
+class PlayRadioStoppedHandler(AbstractRequestHandler):
+    """AudioPlayer.PlaybackStopped Directive received.
+    Confirming that the requested audio file stopped playing.
+    Do not send any specific response.
+    """
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return is_request_type("AudioPlayer.PlaybackStopped")(handler_input)
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        logger.info("In PlaybackStoppedHandler")
+        logger.info("Playback stopped")
+        return handler_input.response_builder.response
+
 sb.add_request_handler(PlayRadioIntentHandler())
+sb.add_request_handler(PlayRadioStartedHandler())
+sb.add_request_handler(PlayRadioFinishedHandler())
+sb.add_request_handler(PlayRadioStoppedHandler())
+
+
 
 sb.add_exception_handler(CatchAllExceptionHandler())
 
