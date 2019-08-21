@@ -54,12 +54,14 @@ function init_venv()
 {
     mkdir -p $final_path
     pushd $final_path
-    virtualenv -p python3 venv
+    virtualenv -p python2 venv
     set +o nounset 
     source venv/bin/activate
     set -o nounset 
     pip install Flask
     pip install Flask-Script
+    pip install ask-sdk
+    pip install flask-ask-sdk
     pip install Flask-SQLAlchemy
     # pip install flask-ask-sdk
     pip install gunicorn
