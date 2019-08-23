@@ -18,8 +18,7 @@ from ask_sdk_model.ui import StandardCard, Image
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
-from .player import player
-
+import requests
 sb = SkillBuilder()
 
 logger = logging.getLogger(__name__)
@@ -69,7 +68,7 @@ class TempoCentIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         speech_text = "OK j'envoie la Tempo 100!"
 
-        player("drums_100.wav")
+        requests.get(url="http://0.0.0.0:5000/player/play/drums_100.wav")
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text)).set_should_end_session(
@@ -88,7 +87,7 @@ class TempoCentDixIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         speech_text = "OK j'envoie la Tempo 110!"
 
-        player("drums_110.wav")
+        requests.get(url="http://0.0.0.0:5000/player/play/drums_110.wav")
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text)).set_should_end_session(
@@ -140,7 +139,8 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         speech_text = "Bye!"
 
-        player("end")
+        requests.get(url="http://0.0.0.0:5000/player/stop")
+
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text))
@@ -155,7 +155,7 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        player("end")
+        requests.get(url="http://0.0.0.0:5000/player/stop")
         return handler_input.response_builder.response
 
 
@@ -173,7 +173,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
         speech = "Désolé, j'ai quelques problèmes, essaie plus tard!!"
         handler_input.response_builder.speak(speech).ask(speech)
-        player("end")
+        requests.get(url="http://0.0.0.0:5000/player/stop")
         return handler_input.response_builder.response
 
 sb.add_request_handler(LaunchRequestHandler())
