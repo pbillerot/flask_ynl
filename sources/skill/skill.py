@@ -32,6 +32,7 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("HelloWorldIntent")
         speech_text = "Bonjour, de la part de Karl!"
 
         handler_input.response_builder.speak(speech_text).set_card(
@@ -49,6 +50,7 @@ class MeteoIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("MeteoIntent")
         speech_text = "Il fait beau!"
 
         handler_input.response_builder.speak(speech_text).set_card(
@@ -66,6 +68,7 @@ class TempoCentIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("TempoCentIntent")
         speech_text = "OK j'envoie la Tempo 100!"
 
         requests.get(url="http://0.0.0.0:5000/player/play/drums_100.wav")
@@ -85,6 +88,7 @@ class TempoCentDixIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("TempoCentDixIntent")
         speech_text = "OK j'envoie la Tempo 110!"
 
         requests.get(url="http://0.0.0.0:5000/player/play/drums_110.wav")
@@ -104,6 +108,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("LaunchRequest")
         speech_text = "Karl à ton écoute"
 
         handler_input.response_builder.speak(speech_text).set_card(
@@ -120,6 +125,7 @@ class HelpIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("HelpIntent")
         speech_text = "Tu peux me dire bonjour!"
 
         handler_input.response_builder.speak(speech_text).ask(
@@ -137,6 +143,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
+        print("CancelOrStopIntent")
         speech_text = "Bye!"
 
         requests.get(url="http://0.0.0.0:5000/player/stop")
@@ -154,6 +161,7 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
         return is_request_type("SessionEndedRequest")(handler_input)
 
     def handle(self, handler_input):
+        print("SessionEndedRequest")
         # type: (HandlerInput) -> Response
         # requests.get(url="http://0.0.0.0:5000/player/stop")
         return handler_input.response_builder.response
@@ -169,6 +177,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
     def handle(self, handler_input, exception):
         # type: (HandlerInput, Exception) -> Response
+        print("CatchAllException")
         logger.error(exception, exc_info=True)
 
         speech = "Désolé, j'ai quelques problèmes, essaie plus tard!!"
