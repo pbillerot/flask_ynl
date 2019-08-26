@@ -5,13 +5,13 @@ from .skill import sb
 from .hello import main
 
 def create_app():
+  print('Load Skill..')
+  app = Flask(__name__)
+  app.register_blueprint(main)
+  skill_adapter = SkillAdapter(
+    skill=sb.create(), 
+    skill_id="amzn1.ask.skill.bd7515ac-93e7-48c6-b2b5-58dcd0fb0951", 
+    app=app)
+  skill_adapter.register(app=app, route="/alexa")
 
-    app = Flask(__name__)
-    app.register_blueprint(main)
-    skill_adapter = SkillAdapter(
-      skill=sb.create(), 
-      skill_id="amzn1.ask.skill.bd7515ac-93e7-48c6-b2b5-58dcd0fb0951", 
-      app=app)
-    skill_adapter.register(app=app, route="/alexa")
-
-    return app
+  return app
