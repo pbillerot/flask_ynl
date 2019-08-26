@@ -114,6 +114,7 @@ function configure_nginx_and_ssowat()
 
     # Reload Nginx and regenerate SSOwat conf
     service nginx reload
+    yunohost app setting alexa skipped_uris -v "/api/ttrss.php"
     yunohost app ssowatconf
 }
 

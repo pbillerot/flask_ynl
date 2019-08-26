@@ -155,7 +155,7 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        requests.get(url="http://0.0.0.0:5000/player/stop")
+        # requests.get(url="http://0.0.0.0:5000/player/stop")
         return handler_input.response_builder.response
 
 
