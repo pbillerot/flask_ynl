@@ -2,10 +2,10 @@ from flask import Flask
 from flask_ask_sdk.skill_adapter import SkillAdapter
 
 from .skill import sb
-from .hello import main
+# from .hello import main
+from .player import main
 
 def create_app():
-  print('Load Skill..')
   app = Flask(__name__)
   app.register_blueprint(main)
   skill_adapter = SkillAdapter(

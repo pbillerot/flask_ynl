@@ -2,19 +2,16 @@
 
 from flask import Flask, Blueprint
 from flask import request, g, current_app
-
 import pygame
-
 import time
-import pprint
 
-main = Blueprint('main', __name__, url_prefix="/player")
+main = Blueprint('main', __name__, url_prefix="/alexa/player")
 #Initialisation Pygame
 pygame.mixer.init()
 
 @main.route('/')
 def player():
-  return 'Liste des médias\n'
+  return 'Player à votre écoute\n'
 
 @main.route('/play/<mediafile>')
 def play(mediafile):
