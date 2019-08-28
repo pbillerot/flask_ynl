@@ -4,6 +4,7 @@ from flask import Flask, Blueprint
 from flask import request, g, current_app
 import pygame
 import time
+import os
 
 main = Blueprint('main', __name__, url_prefix="/alexa/player")
 #Initialisation Pygame
@@ -17,7 +18,8 @@ def player():
 def play(mediafile):
   if "son" in  current_app.config:
     current_app.config["son"].stop()
-  son = pygame.mixer.Sound("media/" + mediafile)
+  filePath = os.path.join(main.root_path, 'media', mediafile)
+  son = pygame.mixer.Sound(filePath)
   son.play(-1)
   current_app.config["son"] = son
   return 'Media: play {}\n'.format(mediafile)

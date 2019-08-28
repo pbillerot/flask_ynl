@@ -91,7 +91,7 @@ class TempoCentDixIntentHandler(AbstractRequestHandler):
         print("TempoCentDixIntent")
         speech_text = "OK j'envoie la Tempo 110!"
 
-        requests.get(url="http://0.0.0.0:5000/player/play/drums_110.wav")
+        requests.get(url="http://0.0.0.0:8000/alexa/player/play/drums_110.wav")
 
         handler_input.response_builder.speak(speech_text).set_card(
             SimpleCard("Hello World", speech_text)).set_should_end_session(
@@ -146,7 +146,7 @@ class CancelOrStopIntentHandler(AbstractRequestHandler):
         print("CancelOrStopIntent")
         speech_text = "Bye!"
 
-        requests.get(url="http://0.0.0.0:5000/player/stop")
+        requests.get(url="http://0.0.0.0:8000/alexa/player/stop")
 
 
         handler_input.response_builder.speak(speech_text).set_card(
@@ -163,7 +163,7 @@ class SessionEndedRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         print("SessionEndedRequest")
         # type: (HandlerInput) -> Response
-        # requests.get(url="http://0.0.0.0:5000/player/stop")
+        # requests.get(url="http://0.0.0.0:8000/alexa/player/stop")
         return handler_input.response_builder.response
 
 
@@ -182,7 +182,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
         speech = "Désolé, j'ai quelques problèmes, essaie plus tard!!"
         handler_input.response_builder.speak(speech).ask(speech)
-        requests.get(url="http://0.0.0.0:5000/player/stop")
+        requests.get(url="http://0.0.0.0:8000/alexa/player/stop")
         return handler_input.response_builder.response
 
 sb.add_request_handler(LaunchRequestHandler())
