@@ -63,6 +63,7 @@ function init_venv()
     pip install flask-ask-sdk
     pip install gunicorn
     pip install pyyaml
+    pip install pygame
     popd
 }
 
