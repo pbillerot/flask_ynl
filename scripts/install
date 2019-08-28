@@ -114,7 +114,7 @@ function configure_nginx_and_ssowat()
 
     # Reload Nginx and regenerate SSOwat conf
     service nginx reload
-    yunohost app setting alexa skipped_urls -v "/"
+    ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
     yunohost app ssowatconf
 }
 
